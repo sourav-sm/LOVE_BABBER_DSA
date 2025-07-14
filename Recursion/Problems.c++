@@ -163,12 +163,60 @@ public:
     }
 };
 // /-------------------------------------------------------------------------------------------
+//Remove All Occurrences of a Substring Using Recursion
+class Solution {
+public:
+    string removeOccurrences(string s, string part) {
+        // Logic to be implemented by the user
+        while(s.find(part)!=string::npos){
+            s.erase(s.find(part),part.size());
+        }
+        return s;
+    }
+};
 
 // /-------------------------------------------------------------------------------------------
 
+// Best Time to Buy and Sell Stock Using Recursion
+class Solution {
+public:
+    void solve(vector<int>& prices,int& minPrice,int& maxProfit,int i){
+        //base case
+        if(i==prices.size())return;
+        
+        //one case
+        if(prices[i]<minPrice)minPrice=prices[i];
+        int currProfit=prices[i]-minPrice;
+        if(currProfit>maxProfit)maxProfit=currProfit;
+        
+        //recursion
+        solve(prices,minPrice,maxProfit,i+1);
+    }
+    int maxProfit(vector<int>& prices) {
+        // Placeholder logic for maximum profit calculation
+        int minPrice=INT_MAX;
+        int maxProfit=INT_MIN;
+        solve(prices,minPrice,maxProfit,0);
+        return maxProfit;
+    }
+};
 // /-------------------------------------------------------------------------------------------
-
+//factorial of a number 
+int factorial(int n) {
+    // Base case and recursive logic to be implemented
+    if(n==0 || n==1)return 1;
+    return n*factorial(n-1);
+}
 // /-------------------------------------------------------------------------------------------
+// Compute Power of a Number Recursively
+int powerRecursive(int base, int exponent) {
+    // Implement this function
+    if(exponent==0)return 1;
+    if(exponent==1)return base;
+    int ans=1;
+    ans*=base;
+    return ans*powerRecursive(base,exponent-1);
+}
 
 // /-------------------------------------------------------------------------------------------
 
