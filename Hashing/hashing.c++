@@ -11,10 +11,10 @@
 // Output: [2, 1, 1, 0, 0, 0]
 // Explanation: Below Table shows the number and their counts, respectively, in the array
 // Number         Count 
-//  1                2
+//  1                
 //  2                1
 //  3                1
-//  4                0
+//  4                0`
 //  5                0
 //  6                0
 
@@ -24,7 +24,7 @@ using namespace std;
 vector<int> countFrequency(int n, int x, vector<int>& nums) {
     vector<int> hash(n, 0); // Initialize vector with n elements, all set to 0
     for(int i = 0; i < nums.size(); i++) {
-        if (nums[i] <= n) { // Ensure the number is within the range we're counting frequencies for
+        if (nums[i] <= n) { // Ensure the number is within the range ~we're counting frequencies for
             hash[nums[i] - 1]++; // Decrement by 1 to adjust for zero-based indexing
         }
     } 
