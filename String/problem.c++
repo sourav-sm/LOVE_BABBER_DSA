@@ -486,3 +486,92 @@ public:
         return ans;
     }
 };
+
+/**In this problem, you are given an array of characters, chars, which represents a sequence of characters. Your task is to compress this sequence using the following rules:
+For each group of consecutive repeating characters, replace the group with the character followed by the number of times it appears in that group.
+If the group consists of only one character, that character should remain unchanged.
+This compression should be done in-place, meaning you use O(1) extra memory beyond the input array itself.
+After modifying the input array, your goal is to return the new length of the compressed character list.
+Example
+Input:chars = ['a','a','b','b','c','c','c']
+Output:6
+ */
+
+ class Solution {
+public:
+    int compress(vector<char>& s) {
+        int index = 0; // where to write compressed characters
+        int i = 0;     // read pointer
+
+        while (i < s.size()) {
+            char currentChar = s[i];
+            int count = 0;
+
+            // Count consecutive repeating characters
+            while (i < s.size() && s[i] == currentChar) {
+                i++;
+                count++;
+            }
+
+            // Write the character
+            s[index++] = currentChar;
+
+            // Write the count if more than 1
+            if (count > 1) {
+                string countStr = to_string(count);
+                for (char c : countStr) {
+                    s[index++] = c;
+                }
+            }
+        }
+
+        return index;
+    }
+};
+
+/**244. Number of Laser Beams in a Bank
+Given a 2D string array called bank, representing a security bank, where each string bank[i] corresponds to a row of security devices:
+'1' signifies an active security device.
+'0' signifies an inactive security device.
+The task is to determine the total number of laser beams generated. Laser beams are formed between every two rows that each have at least one active device. Specifically, if one row has x active security devices and another has y, the number of laser beams between these two rows is given by x * y.
+You need to compute and return the aggregate number of laser beams in the entire bank.
+Example
+Input:
+bank = [
+ "011001",
+ "000000",
+ "010100",
+ "001000"
+]
+Output:8
+ */
+
+ class Solution {
+public:
+   int countDevices(string& s){
+    int count=0;
+    for(int i=0;i<s.length();i++){
+        if(s[i]=='1')count++;
+    }
+    return count;
+   }
+
+    int numberOfBeams(vector<string>& bank) {
+        // Implement logic to calculate number of laser beams
+    vector<int>devices;
+    for(auto row:bank){
+        devices.push_back(countDevices(row));
+    }
+     int beams=0;
+    
+        for(int i=0;i<devices.size()-1;i++){
+            int j=i+1;
+            while(j<devices.size()){
+                beams+=devices[i]*devices[j];
+                if(devices[j]==0)j++;
+                else break;
+            }
+        }
+    return beams;
+    }
+};

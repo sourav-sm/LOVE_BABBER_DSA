@@ -32,6 +32,48 @@ public:
     }
 };
 
+//SIMILAR QUESTIONS TO THAT OF ABOVE
+/**239. Longest Palindromic Substrings
+Given a string s, your task is to find the longest substring of s that is a palindrome. A palindrome is defined as a string that reads the same forward and backward.
+Example:
+Input: s = "babad"
+Output: "bab"
+Note: "aba" is also a valid answer as it is another palindrome of the same length in the input string. */
+
+class Solution {
+public:
+    pair<int,int>check(int i,int j,string s){
+        while(i>=0 && j<s.length() && s[i]==s[j]){
+            i--;
+            j++;
+        }
+        return {i+1,j-1};//return the index of palindrom string
+        //here we do i+1 and j-1 because You expand as long as characters at s[left] and s[right] match.When they no longer match, you've already gone one step too far on both sides.
+    }
+
+    string longestPalindrome(const string& s) {
+       int st=0,en=0;
+       for(int center=0;center<s.length();center++){
+        //odd length s
+        auto[l1,r1] =check(center,center,s);
+        //even length s
+        auto[l2,r2] =check(center,center+1,s);
+        if(r1-l1>en-st){
+            st=l1;
+            en=r1;
+        }
+       
+        if(r2-l2>en-st){
+            st=l2;
+            en=r2;
+        }
+     }
+     return s.substr(st,en-st+1);//s.substr(startingPoint,length);
+    }
+};
+
+
+
 /**1047. Remove All Adjacent Duplicates In String
 You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.
 We repeatedly make duplicate removals on s until we no longer can.
