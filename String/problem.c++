@@ -575,3 +575,112 @@ public:
     return beams;
     }
 };
+
+/**LEETCODE 890. Find and Replace Pattern
+Given a list of strings words and a string pattern, return a list of words[i] that match pattern. You may return the answer in any order.
+A word matches the pattern if there exists a permutation of letters p so that after replacing every letter x in the pattern with p(x), we get the desired word.
+Recall that a permutation of letters is a bijection from letters to letters: every letter maps to another letter, and no two letters map to the same letter. */
+
+class Solution {
+public:
+   void normaliseString(string &s){
+        //creatng mapping
+        char st='a';
+        unordered_map<char,char>mpp;
+        for(int i=0;i<s.length();i++){
+            char ch=s[i];
+            if(mpp.find(ch)==mpp.end()){
+                mpp[ch]=st;
+                st++;
+            }
+        }
+        //creating a std pattern using this mapping
+        for(int i=0;i<s.length();i++){
+            char ch=s[i];
+            char mappedCh=mpp[ch];
+            s[i]=mappedCh;
+        }
+   }
+    vector<string> findAndReplacePattern(vector<string>& words, string pattern) {
+        vector<string>ans;
+        normaliseString(pattern);
+
+        for(auto it:words){
+            string currentStr=it;
+            normaliseString(currentStr);
+            if(pattern==currentStr){
+                ans.push_back(it);
+            }
+        }
+        return ans;
+    }
+};
+
+/**791. Custom Sort String
+You are given two strings order and s. All the characters of order are unique and were sorted in some custom order previously.
+Permute the characters of s so that they match the order that order was sorted. More specifically, if a character x occurs before a character y in order, then x should occur before y in the permuted string.
+Return any permutation of s that satisfies this property. */
+string orderCpy;
+class Solution {
+public:
+    static bool cmp(char ch1,char ch2){
+        return orderCpy.find(ch1)<orderCpy.find(ch2);
+    }
+    string customSortString(string order, string s) {
+        orderCpy=order;
+        sort(s.begin(),s.end(),cmp);
+        return s;
+    }
+};
+
+/**2391. Minimum Amount of Time to Collect Garbage
+You are given a 0-indexed array of strings garbage where garbage[i] represents the assortment of garbage at the ith house. garbage[i] consists only of the characters 'M', 'P' and 'G' representing one unit of metal, paper and glass garbage respectively. Picking up one unit of any type of garbage takes 1 minute.
+You are also given a 0-indexed integer array travel where travel[i] is the number of minutes needed to go from house i to house i + 1.
+There are three garbage trucks in the city, each responsible for picking up one type of garbage. Each garbage truck starts at house 0 and must visit each house in order; however, they do not need to visit every house.
+Only one garbage truck may be used at any given moment. While one truck is driving or picking up garbage, the other two trucks cannot do anything.
+Return the minimum number of minutes needed to pick up all the garbage. */
+
+class Solution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) {
+        int pickP=0;//pickup time for p
+        int pickM=0;//pickup time for m
+        int pickG=0;//pickup time for g
+
+        int lastHouseP=0;
+        int lastHouseM=0;
+        int lastHouseG=0;
+
+        for(int i=0;i<garbage.size();i++){
+            string currHouseGarbage=garbage[i];
+            for(int j=0;j<currHouseGarbage.size();j++){
+                char garbageType=currHouseGarbage[j];
+                if(garbageType=='P'){
+                    pickP++;
+                    lastHouseP=i;
+                }else if(garbageType=='M'){
+                    pickM++;
+                    lastHouseM=i;
+                }else if(garbageType=='G'){
+                    pickG++;
+                    lastHouseG=i;
+                }
+            }
+        }
+        int travelP=0;
+        int travelM=0;
+        int travelG=0;
+
+        for(int i=0;i<lastHouseP;i++){
+            travelP+=travel[i];
+        }
+        for(int i=0;i<lastHouseM;i++){
+            travelM+=travel[i];
+        }
+        for(int i=0;i<lastHouseG;i++){
+            travelG+=travel[i];
+        }
+      int totalTime=(pickP+pickM+pickG)+(travelP+travelM+travelG);
+      return totalTime;
+    }
+};
