@@ -684,3 +684,32 @@ public:
       return totalTime;
     }
 };
+
+// Given a string s, reverse the string without reversing its individual words. Words are separated by dots(.).
+// Note: The string may contain leading or trailing dots(.) or multiple dots(.) between two words. The returned string should only have a single dot(.) separating the words, and no extra dots should be included.
+class Solution {
+  public:
+    string reverseWords(string &s) {
+        // code here
+        reverse(s.begin(),s.end());
+        int i=0;//for tarvaersing string s
+        int l=0,r=0;//for reversing every words
+        int n=s.length();
+        while(i<n){
+            while(i<n && s[i]!='.'){
+                s[r++]=s[i++];//for removing extra .
+            }
+            //reverse every word
+            if(l<r){
+                reverse(s.begin()+l,s.begin()+r);
+                s[r]='.';
+                r++;
+                l=r;
+            }
+            i++;
+        }
+        //removing tailing
+        return s.substr(0,r-1);
+        
+    }
+};

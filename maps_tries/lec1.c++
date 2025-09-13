@@ -43,7 +43,7 @@ class TrieNode{
 
 void insertInTrie(TrieNode* root,string word){
     //base case
-    if(word.lenght()==0){
+    if(word.length()==0){
         root->isTerminal=true;
         return;
     }
@@ -62,13 +62,50 @@ void insertInTrie(TrieNode* root,string word){
     root->child[ch]=child;
    }
    //baki recursion samal legs
-   insertInTrie(root,word.susbstr(1));
+   insertInTrie(child,word.substr(1));
+}
+bool searchWord(TrieNode* root,string word){
+    //base case
+    if(word.length()==0){
+        return root->isTerminal;
+    }
+    char ch=word[0];
+    TrieNode* child;
+    if(root->child.find(ch)!=root->child.end()){
+        //present
+        child=root->child[ch];
+    }else{
+        //not present
+        return false;
+    }
+    //recursion
+    bool recursionkaAns=searchWord(child,word.substr(1));
+    return recursionkaAns;
+}
+bool searchPrefix(TrieNode* root,string word){
+    //base case
+    if(word.length()==0){
+        return true;
+    }
+    char ch=word[0];
+     TrieNode* child;
+    if(root->child.find(ch)!=root->child.end()){
+        //present
+        child=root->child[ch];//move here
+    }else{
+        return false;
+    }
+    //recursion
+    bool recursionKaAns=searchPrefix(child,word.substr(1));
+    return recursionKaAns;
 }
 
 class Trie {
 public:
+    TrieNode* root;
+
     Trie() {
-        TrieNode* root=new TrieNode("-");
+        root = new TrieNode('-'); // ✅ store in member
     }
 
     
@@ -77,10 +114,11 @@ public:
     }
     
     bool search(string word) {
-        
+        return searchWord(root,word);
     }
     
     bool startsWith(string prefix) {
-        
+     //same as above search just here we do not need to search terminal
+       return searchPrefix(root,prefix);   
     }
 };
