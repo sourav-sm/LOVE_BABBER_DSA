@@ -26,24 +26,66 @@ class Graph{
                 cout<<"}";
             }
         }
+        /*
+output-- 2{1,4,}
+        4{3,1,2,}
+        3{0,4,1,}
+        1{0,3,4,2,}
+        0{1,3,}
+        */
 
         //BFS TRAVERSAL
-        void bfsTraversal(int node){
-            queue<int>q;
-            unordered_map<int,bool>visited;
-            q.push(node);
-            visited[node]=true;
-
-            while(!q.empty()){
-                int frontNode=q.front();
-                q.pop();
-                cout<<frontNode<<",";
-                for(auto nbr:adjList(frontNode)){
-                    if(!visited[nbr]){
-                        q.push(nbr);
-                        visited[nbr]=true;
-                    }
+         void bfs(int src){
+        unordered_map<int,bool>visited;
+        queue<int>q;
+        q.push(src);
+        visited[src]=true;
+        
+        while(!q.empty()){
+            int frontNode=q.front();
+            cout<<frontNode<<" ";
+            q.pop();
+            for(auto nbr:adj[frontNode]){
+                //we have to check weather that node is visited or not
+                if(!visited[nbr]){
+                    q.push(nbr);//push to queue;
+                    visited[nbr]=true;
                 }
             }
         }
+        }//0 1 3 4 2 
+
+        //DFS TRAVERSAL
+        void dfsHelper(int src,unordered_map<int,bool>&visited){
+        cout<<src<<",";
+        visited[src]=true;
+        for(auto nbr:adj[src]){
+            if(!visited[nbr]){
+            dfsHelper(nbr,visited);
+        }   
+        }
+      }
+    
+        void dfs(int src){
+            unordered_map<int,bool>visited;
+            dfsHelper(src,visited);//recursive call
+        }
 };
+
+int main()
+{
+    Graph g;
+    g.addEdge(0,1,0);
+    g.addEdge(0,3,0);
+    g.addEdge(3,4,0);
+    g.addEdge(1,3,0);
+    g.addEdge(4,1,0);
+    g.addEdge(1,2,0);
+    g.addEdge(2,4,0);
+    
+    g.printGraph();
+
+    g.bfs(0);
+    
+    return 0;
+}
