@@ -7,7 +7,7 @@ Given an undirected graph with V vertices and E edges, represented as a 2D vecto
 //----------USING BFS-------------------
 class Solution {
 public:
-    bool checkCycleBFS(int src, vector<vector<int>>& adj) {
+    bool checkCycleBFS(int src, vector<vector<int>>& adj) {~
         vector<bool> visited(adj.size(), false);
         vector<int> parent(adj.size(), -1);
         queue<int> q;
